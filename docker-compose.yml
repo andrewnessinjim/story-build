@@ -1,0 +1,14 @@
+version: '2.4'
+
+services:
+
+  web:
+    build: .
+    ports:
+      - '3000:3000'
+      - '3001:3001'
+    volumes:
+       - ./client:/app/client_root/client
+       - ./server:/app/server_root/server
+    environment:
+      - NODE_ENV=development
