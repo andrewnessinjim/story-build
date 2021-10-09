@@ -7,11 +7,15 @@ const express = require("express"),
 
 const HTTP_PORT = 3001;
 
+const Query = require("./resolvers/Query");
+const Mutation = require("./resolvers/Mutation")
+
 startApolloServer();
 
 async function startApolloServer() {
     const app = express();
     const httpServer = http.createServer(app);
+    
 
     const server = new ApolloServer({
         typeDefs: fs.readFileSync(
@@ -19,11 +23,8 @@ async function startApolloServer() {
             'utf8'
         ),
         resolvers: {
-            Query: {
-                info() {
-                    return "This is hello from apollo express server";
-                }
-            }
+            Query,
+            Mutation
         },
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     });

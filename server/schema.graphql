@@ -1,3 +1,23 @@
 type Query {
-    info: String!
+    health: String!
+    joinRoom(roomId: Int!): Room!
+}
+
+type Mutation {
+    openRoom (phrases: [String!]!): Room!
+    playSentence (roomId: ID!, phraseId: ID!, sentence: String!): Room!
+}
+
+type Phrase {
+    id: ID!
+    value: String!
+    isPlayed: Boolean!
+    playedSentence: String
+    playedOrder: Int
+}
+
+type Room {
+    id: ID!
+    isStoryComplete: Boolean!
+    phrases: [Phrase!]!
 }
