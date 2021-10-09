@@ -7,6 +7,7 @@ services:
     ports:
       - '3000:3000'
       - '3001:3001'
+      - '9229:9229'
     volumes:
        - ./client:/app/client_root/client
        - ./server:/app/server_root/server

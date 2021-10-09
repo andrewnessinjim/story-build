@@ -1,6 +1,9 @@
 FROM node:16.10.0-bullseye-slim
 
 ENV PATH /app/server_root/node_modules/.bin:/app/client_root/node_modules/.bin:$PATH
+EXPOSE 3000
+EXPOSE 3001
+EXPOSE 9229
 
 WORKDIR /app
 COPY ./docker-entrypoint.sh .
