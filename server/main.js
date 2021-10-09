@@ -1,11 +1,42 @@
-const express = require("express");
-const app = express();
+const express = require("express"),
+    {ApolloServer} = require("apollo-server-express"),
+    {ApolloServerPluginDrainHttpServer} = require("apollo-server-core"),
+    http = require("http"),
+    fs = require("fs"),
+    path =require("path");
 
-app.get("/", (req, res) => {
-    res.end("Hello from within docker-compose!");
-});
+const HTTP_PORT = 3001;
 
-app.listen(3001, () => {
-    console.log(`Mode: ${process.env.NODE_ENV}`);
-    console.log("Listening on port 3001...")
-});
+startApolloServer();
+
+async function startApolloServer() {
+    const app = express();
+    const httpServer = http.createServer(app);
+
+    const server = new ApolloServer({
+        typeDefs: fs.readFileSync(
+            path.join(__dirname, 'schema.graphql'),
+            'utf8'
+        ),
+        resolvers: {
+            Query: {
+                info() {
+                    return "This is hello from apollo express server";
+                }
+            }
+        },
+        plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    });
+
+    await server.start();
+    server.applyMiddleware({
+        app
+    });
+
+    app.get("/", (req, res) => {
+        res.end("Hello from within docker-compose!");
+    });
+
+    await new Promise(resolve => httpServer.listen({ port: HTTP_PORT }, resolve));
+    console.log(`🚀 Server ready at http://localhost:${HTTP_PORT}${server.graphqlPath}`);
+}
