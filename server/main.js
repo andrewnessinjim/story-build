@@ -5,7 +5,7 @@ const express = require("express"),
     fs = require("fs"),
     path =require("path");
 
-const HTTP_PORT = 3001;
+const HTTP_PORT = 3000;
 
 const Query = require("./resolvers/Query");
 const Mutation = require("./resolvers/Mutation")
@@ -34,8 +34,14 @@ async function startApolloServer() {
         app
     });
 
-    app.get("/", (req, res) => {
-        res.end("Hello from within docker-compose!");
+    app.use("/", express.static(path.join(__dirname, "static")));
+
+    app.get("/healthcheck", (req, res) => {
+        const health = {
+            message: "I am OK! Thanks for asking."
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(health));
     });
 
     await new Promise(resolve => httpServer.listen({ port: HTTP_PORT }, resolve));
