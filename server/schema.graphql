@@ -5,19 +5,22 @@ type Query {
 
 type Mutation {
     openRoom (phrases: [String!]!): Room!
-    playSentence (roomId: ID!, phraseId: ID!, sentence: String!): Room!
+    playSentence (roomId: ID!, phrase: String!, sentence: String!): Room!
 }
 
 type Phrase {
-    id: ID!
     value: String!
     isPlayed: Boolean!
-    playedSentence: String
-    playedOrder: Int
 }
 
 type Room {
     id: ID!
     isStoryComplete: Boolean!
     phrases: [Phrase!]!
+    story: [Sentence!]!
+}
+
+type Sentence {
+    playedPhrase: String!
+    playedSentence: String!
 }

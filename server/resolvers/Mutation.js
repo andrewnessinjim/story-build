@@ -3,10 +3,9 @@ const Phrase = require("../dtos/Phrase");
 const Room = require("../dtos/Room");
 
 let roomId = 1;
-let phraseId = 1;
 
 function openRoom(_, args) {
-    const phrases = args.phrases.map(phraseString => new Phrase(phraseId++, phraseString, false, null, null));
+    const phrases = args.phrases.map(phraseString => new Phrase(phraseString, false));
     const room = new Room(roomId, false, phrases);
     memory.rooms.set(roomId, room);
 
@@ -15,11 +14,10 @@ function openRoom(_, args) {
 }
 
 function playSentence(_, args) {
-    console.log("Playing sentence...");
     const {sentence} = args;
 
     const roomId = Number(args.roomId);
-    const phraseId = Number(args.phraseId);
+    const phraseArg = args.phrase;
 
     let playedRoom;
     for (const room of memory.rooms.values()) {
@@ -29,17 +27,15 @@ function playSentence(_, args) {
         }
     }
     
-    const playedPhrase = playedRoom.phrases.find(phrase => phrase.id === phraseId);
+    const playedPhrase = playedRoom.phrases.find(phrase => phrase.value === phraseArg);
     
-    const currMaxOrder = playedRoom.phrases.
-                            map(phrase => phrase.playedOrder).
-                            reduce((prev, curr) => Math.max(prev, curr), 0);
-    
+    playedRoom.story.push({
+        playedPhrase: phraseArg,
+        playedSentence: sentence
+    });
 
     playedPhrase.isPlayed = true;
-    playedPhrase.playedOrder = currMaxOrder + 1;
-    playedPhrase.playedSentence = sentence;
-
+    
     return playedRoom;
 }
 

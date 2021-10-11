@@ -3,6 +3,6 @@ module.exports = class Room {
         this.id = id;
         this.isStoryComplete = isStoryComplete;
         this.phrases = phrases;
-        this.story = "";
+        this.story = [];
     }
 }
