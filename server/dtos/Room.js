@@ -1,7 +1,6 @@
 module.exports = class Room {
-    constructor(id, isStoryComplete, phrases) {
-        this.id = id;
-        this.isStoryComplete = isStoryComplete;
+    constructor(phrases) {
+        this.isStoryComplete = false;
         this.phrases = phrases;
         this.story = [];
     }

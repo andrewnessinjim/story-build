@@ -1,6 +1,6 @@
 type Query {
     health: String!
-    joinRoom(roomId: Int!): Room!
+    joinRoom(roomId: ID!): Room!
 }
 
 type Mutation {
@@ -14,7 +14,7 @@ type Phrase {
 }
 
 type Room {
-    id: ID!
+    _id: ID!
     isStoryComplete: Boolean!
     phrases: [Phrase!]!
     story: [Sentence!]!
