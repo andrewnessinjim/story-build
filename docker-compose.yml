@@ -15,3 +15,20 @@ services:
        - ./server:/app/server_root/server
     environment:
       - NODE_ENV=development
+      - DB_URI=mongodb://root:root@mongo:27018
+      - DB_NAMESPACE=storybuilder
+    depends_on:
+      mongo:
+        condition: service_healthy
+  
+  mongo:
+    image: mongo:5.0.3
+    restart: always
+    command: --port 27018
+    ports:
+        - '27018:27018'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27018/test --quiet

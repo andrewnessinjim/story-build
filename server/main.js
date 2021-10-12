@@ -3,14 +3,20 @@ const express = require("express"),
     {ApolloServerPluginDrainHttpServer} = require("apollo-server-core"),
     http = require("http"),
     fs = require("fs"),
-    path =require("path");
+    path =require("path"),
+    db = require("./daos/db");
 
 const HTTP_PORT = 3000;
 
 const Query = require("./resolvers/Query");
 const Mutation = require("./resolvers/Mutation")
 
-startApolloServer();
+boot();
+
+async function boot() {
+    await db.connect();
+    startApolloServer();
+}
 
 async function startApolloServer() {
     const app = express();
