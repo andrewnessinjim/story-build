@@ -1,12 +1,11 @@
-const db = require("../daos/db");
-const ObjectId = require("mongodb").ObjectId;
+const roomService = require("../business/roomService");
 
 function health() {
     return "OK";
 }
 
 async function joinRoom(_, args) {
-    return await db.get().collection("rooms").findOne({_id: new ObjectId(args.roomId)});
+    return await roomService.findRoom(args.roomId);
 }
 
 module.exports = {

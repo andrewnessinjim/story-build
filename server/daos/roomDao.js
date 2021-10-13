@@ -21,3 +21,7 @@ module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
 
     return doc.value;
 };
+
+module.exports.findRoom = async (roomId) => {
+    return await db.get().collection("rooms").findOne({_id: new ObjectId(roomId)});
+}
