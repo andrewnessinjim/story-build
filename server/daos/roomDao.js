@@ -6,6 +6,21 @@ module.exports.openRoom = async(room) => {
     room.id = dbResponse.insertedId.toString();
 };
 
+module.exports.isPhrasePlayed = async (roomId, phrase) => {
+    const doc = await db.get().collection("rooms").findOne({
+        _id: new ObjectId(roomId)
+    }, {
+        projection: {
+            phrases: {
+                $elemMatch: {
+                    value: phrase
+                }
+            }
+    }});
+
+    return doc.phrases[0].isPlayed;
+}
+
 module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
     const doc = await db.get().collection("rooms").findOneAndUpdate(
         {_id: new ObjectId(roomId), "phrases.value": playedPhrase},

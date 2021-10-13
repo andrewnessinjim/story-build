@@ -10,6 +10,10 @@ module.exports.openRoom = async(phrasesArg) => {
 };
 
 module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
+    const isPhrasePlayed = await roomDao.isPhrasePlayed(roomId, playedPhrase);
+    if(isPhrasePlayed) {
+        throw new Error(`Phrase ${playedPhrase} is already played. Cannot play again`)
+    }
     return await roomDao.playSentence(roomId, playedPhrase, playedSentence);
 };
 
