@@ -7,13 +7,17 @@ module.exports.openRoom = async(room) => {
 };
 
 module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
-    doc = await db.get().collection("rooms").updateOne(
+    const doc = await db.get().collection("rooms").findOneAndUpdate(
         {_id: new ObjectId(roomId), "phrases.value": playedPhrase},
         {   $set: 
                 {"phrases.$.isPlayed": true},
             $push:
                 {story: {playedPhrase, playedSentence}}
+        },
+        {
+            returnDocument: "after"
         }
     );
-    return db.get().collection("rooms").findOne({_id: new ObjectId(roomId)});
+
+    return doc.value;
 };
