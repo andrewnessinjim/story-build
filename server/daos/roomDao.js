@@ -2,8 +2,7 @@ const db = require("./db");
 const ObjectId = require("mongodb").ObjectId;
 
 module.exports.openRoom = async(room) => {
-    const dbResponse = await db.get().collection("rooms").insertOne(room);
-    room.id = dbResponse.insertedId.toString();
+    await db.get().collection("rooms").insertOne(room);
 };
 
 module.exports.isPhrasePlayed = async (roomId, phrase) => {
