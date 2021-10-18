@@ -39,3 +39,19 @@ module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
 module.exports.findRoom = async (roomId) => {
     return await db.get().collection("rooms").findOne({_id: new ObjectId(roomId)});
 }
+
+module.exports.completeStory = async (roomId) => {
+    const updatedRoom = await db.get().collection("rooms").findOneAndUpdate(
+        {_id: new ObjectId(roomId)},
+        {
+            $set: {
+                isStoryComplete: true,
+                phrases: []
+            }
+        },
+        {
+            returnDocument: "after"
+        }
+    );
+    return updatedRoom.value;
+}

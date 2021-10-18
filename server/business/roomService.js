@@ -14,7 +14,14 @@ module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
     if(isPhrasePlayed) {
         throw new Error(`Phrase ${playedPhrase} is already played. Cannot play again`)
     }
-    return await roomDao.playSentence(roomId, playedPhrase, playedSentence);
+    const roomAfterPlayingSentence = await roomDao.playSentence(roomId, playedPhrase, playedSentence);
+
+    if(roomAfterPlayingSentence.phrases.filter(phrase => !phrase.isPlayed).length === 0) {
+        console.log("Story completed!")
+        return await roomDao.completeStory(roomId);
+    }
+
+    return roomAfterPlayingSentence;
 };
 
 module.exports.findRoom = async (roomId) => {
