@@ -10,6 +10,10 @@ module.exports.createRoom = async(phrasesArg) => {
 };
 
 module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
+    const isStoryComplete = await roomDao.isStoryComplete(roomId);
+    if(isStoryComplete) {
+        throw new Error(`Story in room ${roomId} is already complete. Cannot play any phrase`);
+    }
     const isPhrasePlayed = await roomDao.isPhrasePlayed(roomId, playedPhrase);
     if(isPhrasePlayed) {
         throw new Error(`Phrase ${playedPhrase} is already played. Cannot play again`)

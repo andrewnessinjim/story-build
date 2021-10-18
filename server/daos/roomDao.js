@@ -55,3 +55,13 @@ module.exports.completeStory = async (roomId) => {
     );
     return updatedRoom.value;
 }
+
+module.exports.isStoryComplete = async(roomId) => {
+    const roomDoc = await db.get().collection("rooms").findOne({
+        _id: new ObjectId(roomId)
+    }, {
+        projection: {
+            isStoryComplete: 1
+    }});
+    return roomDoc.isStoryComplete;
+}
