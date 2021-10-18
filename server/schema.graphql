@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-    openRoom (phrases: [String!]!): Room!
+    createRoom (phrases: [String!]!): Room!
     playSentence (roomId: ID!, phrase: String!, sentence: String!): Room!
 }
 

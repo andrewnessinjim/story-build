@@ -1,7 +1,7 @@
 const db = require("./db");
 const ObjectId = require("mongodb").ObjectId;
 
-module.exports.openRoom = async(room) => {
+module.exports.createRoom = async(room) => {
     await db.get().collection("rooms").insertOne(room);
 };
 

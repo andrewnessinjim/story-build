@@ -3,8 +3,8 @@ const Room = require("../dtos/Room");
 const roomService = require("../business/roomService");
 
 
-async function openRoom(_, args) {
-    return await roomService.openRoom(args.phrases);
+async function createRoom(_, args) {
+    return await roomService.createRoom(args.phrases);
 }
 
 async function playSentence(_, args) {
@@ -13,6 +13,6 @@ async function playSentence(_, args) {
 }
 
 module.exports = {
-    openRoom,
+    createRoom,
     playSentence
 }

@@ -2,10 +2,10 @@ const roomDao = require("../daos/roomDao");
 const Phrase = require("../dtos/Phrase");
 const Room = require("../dtos/Room");
 
-module.exports.openRoom = async(phrasesArg) => {
+module.exports.createRoom = async(phrasesArg) => {
     const phrases = phrasesArg.map(phraseString => new Phrase(phraseString, false));
     const room = new Room(phrases);
-    await roomDao.openRoom(room);
+    await roomDao.createRoom(room);
     return room;
 };
 
