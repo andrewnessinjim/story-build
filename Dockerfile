@@ -32,7 +32,9 @@ EXPOSE 3001
 EXPOSE 9229
 
 WORKDIR /app/server_root/server
-RUN npm install && npm cache clean --force
+
+#npm ci uses NODE_ENV value to determine whether to install for dev or prod
+RUN npm ci && npm cache clean --force
 WORKDIR /app
 COPY ./docker-entrypoint-dev.sh .
 
