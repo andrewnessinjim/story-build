@@ -10,12 +10,15 @@ ENV NODE_ENV=production
 #Express port
 EXPOSE 3000
 
+RUN mkdir -p /app/server_root /app/client_root && chown -R node:node /app
+USER node
+
 WORKDIR /app/server_root/
-COPY server/package*.json ./
+COPY --chown=node:node server/package*.json ./
 RUN npm ci && npm cache clean --force
 
 WORKDIR /app/client_root/
-COPY client/package*.json ./
+COPY --chown=node:node client/package*.json ./
 RUN npm ci && npm cache clean --force
 
 WORKDIR /app
@@ -37,17 +40,17 @@ WORKDIR /app/server_root/server
 #npm ci uses NODE_ENV value to determine whether to install for dev or prod
 RUN npm ci && npm cache clean --force
 WORKDIR /app
-COPY ./docker-entrypoint-dev.sh .
+COPY --chown=node:node ./docker-entrypoint-dev.sh .
 
 CMD ["bash", "/app/docker-entrypoint-dev.sh"]
 
 #prod is derived from base. Static client artifacts are served out by express, so client_root is unnecessary. client_root was used only to support webpack dev server in dev stage.
 FROM base as prod
 WORKDIR /app/server_root/
-COPY server ./server
+COPY --chown=node:node server ./server
 
 WORKDIR /app/client_root
-COPY client ./client
+COPY --chown=node:node client ./client
 WORKDIR /app/client_root/client
 RUN npm run build && cp -R build ../../server_root/server/static && rm -rf /app/client_root
 WORKDIR /app/server_root/server
