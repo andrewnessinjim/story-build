@@ -7,8 +7,8 @@
             "request": "attach",
             "port": 9229,
             "address": "localhost",
-            "localRoot": "${workspaceFolder}/server",
-            "remoteRoot": "/app/server_root/server",
+            "localRoot": "${workspaceFolder}/src/server",
+            "remoteRoot": "/app/src/server",
             "protocol": "inspector",
             "restart": true
         }

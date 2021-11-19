@@ -8,11 +8,9 @@ services:
       target: dev
     ports:
       - '3000:3000'
-      - '3001:3001'
       - '9229:9229'
     volumes:
-       - ./client:/app/client_root/client
-       - ./server:/app/server_root/server
+       - ./:/app
     environment:
       - NODE_ENV=development
       - DB_URI=mongodb://root:root@mongo:27018

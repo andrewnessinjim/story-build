@@ -10,49 +10,27 @@ ENV NODE_ENV=production
 #Express port
 EXPOSE 3000
 
-RUN mkdir -p /app/server_root /app/client_root && chown -R node:node /app
+RUN mkdir /app && chown -R node:node /app
+WORKDIR /app
+COPY --chown=node:node package*.json ./
 USER node
 
-WORKDIR /app/server_root/
-COPY --chown=node:node server/package*.json ./
 RUN npm ci && npm cache clean --force
 
-WORKDIR /app/client_root/
-COPY --chown=node:node client/package*.json ./
-RUN npm ci && npm cache clean --force
-
-WORKDIR /app
+COPY --chown=node:node . .
 
 #dev is derived from base. It's meant for local development only. It does not copy code because its only meant to be used with docker-compose, which bind mounts the code anyway.
 FROM base as dev
 
-ENV PATH=/app/server_root/node_modules/.bin:/app/client_root/node_modules/.bin:$PATH
+ENV PATH=/app/node_modules/.bin:$PATH
 ENV NODE_ENV=development
-
-#Webpack dev server port
-EXPOSE 3001
 
 #Node debugger
 EXPOSE 9229
 
-WORKDIR /app/server_root/server
+CMD npm ci && npm cache clean --force && nodemon --inspect=0.0.0.0:9229 --watch /app/src/server /app/src/server/main.js 
 
-#npm ci uses NODE_ENV value to determine whether to install for dev or prod
-RUN npm ci && npm cache clean --force
-WORKDIR /app
-COPY --chown=node:node ./docker-entrypoint-dev.sh .
-
-CMD ["bash", "/app/docker-entrypoint-dev.sh"]
-
-#prod is derived from base. Static client artifacts are served out by express, so client_root is unnecessary. client_root was used only to support webpack dev server in dev stage.
+#prod is derived from base.
 FROM base as prod
-WORKDIR /app/server_root/
-COPY --chown=node:node server ./server
 
-WORKDIR /app/client_root
-COPY --chown=node:node client ./client
-WORKDIR /app/client_root/client
-RUN npm run build && cp -R build ../../server_root/server/static && rm -rf /app/client_root
-WORKDIR /app/server_root/server
-
-CMD ["node","main.js"]
+CMD ["node","/app/src/server/main.js"]

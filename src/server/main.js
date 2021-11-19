@@ -40,8 +40,6 @@ async function startApolloServer() {
         app
     });
 
-    app.use("/", express.static(path.join(__dirname, "static")));
-
     app.get("/healthcheck", (req, res) => {
         const health = {
             message: "I am OK! Thanks for asking."
