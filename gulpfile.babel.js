@@ -1,0 +1,33 @@
+import gulp from "gulp";
+import path from "path";
+import rimraf from "rimraf";
+
+const $ = require("gulp-load-plugins")();
+
+gulp.task("server:clean", done => {
+    rimraf("./build", done);
+});
+
+gulp.task("server:build", 
+    gulp.series(
+        "server:clean",
+        gulp.parallel(
+            copyStaticServerAssets,
+            buildServer
+        )
+    )
+);
+
+function buildServer() {
+    return gulp.src(["./src/server/**/*.js", "./src/server/**/*.ts"])
+        .pipe($.changed("./build"))
+        .pipe($.sourcemaps.init())
+        .pipe($.babel())
+        .pipe($.sourcemaps.write(".", {sourceRoot: path.join(__dirname, "src", "server")}))
+        .pipe(gulp.dest("./build"));
+}
+
+function copyStaticServerAssets() {
+    return gulp.src("./src/server/schema.graphql")
+        .pipe(gulp.dest("./build"));
+}

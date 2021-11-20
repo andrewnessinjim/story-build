@@ -28,9 +28,9 @@ ENV NODE_ENV=development
 #Node debugger
 EXPOSE 9229
 
-CMD npm ci && npm cache clean --force && nodemon --inspect=0.0.0.0:9229 --watch /app/src/server /app/src/server/main.js 
+CMD npm ci && npm cache clean --force && gulp server:build && nodemon --inspect=0.0.0.0:9229 --watch /app/build /app/run.js 
 
 #prod is derived from base.
 FROM base as prod
 
-CMD ["node","/app/src/server/main.js"]
+CMD ["node","/app/run.js"]

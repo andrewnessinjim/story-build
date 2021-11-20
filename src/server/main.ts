@@ -6,7 +6,7 @@ const express = require("express"),
     path =require("path"),
     db = require("./daos/db");
 
-const HTTP_PORT = 3000;
+const HTTP_PORT:number = 3000;
 
 const Query = require("./resolvers/Query");
 const Mutation = require("./resolvers/Mutation")

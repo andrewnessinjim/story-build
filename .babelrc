@@ -1,0 +1,13 @@
+//This file enables module syntax in gulpfile by utilizing @babel/register module
+{
+    "presets": [
+        [
+            "@babel/env",
+            {
+                "targets": {
+                    "node": 16
+                }
+            }
+        ]
+    ]
+}
