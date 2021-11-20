@@ -1,0 +1,8 @@
+{
+    "docker.commands.composeUp": [
+        {
+            "label": "override",
+            "template": "docker-compose -f docker-compose.yml ${configurationFile}  up -d --build",
+        }
+    ]    
+}
