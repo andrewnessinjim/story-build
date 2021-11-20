@@ -5,13 +5,6 @@ services:
   web:
     build:
       context: .
-      target: dev
-    ports:
-      - '3000:3000'
-      - '9229:9229'
-      - '8080:8080'
-    volumes:
-       - ./:/app
     environment:
       - NODE_ENV=development
       - DB_URI=mongodb://root:root@mongo:27018
@@ -29,10 +22,5 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-    volumes:
-      - story-mongo-data:/data/db
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27018/test --quiet
-
-volumes:
-  story-mongo-data:

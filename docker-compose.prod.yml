@@ -1,0 +1,19 @@
+version: '2.4'
+
+services:
+  web:
+    build:
+      target: prod
+    ports:
+      - '3001:3000'
+    environment:
+      - NODE_ENV=production
+  
+  mongo:
+    ports:
+        - '27019:27018'
+    volumes:
+      - prod-mongo-data:/data/db
+
+volumes:
+  prod-mongo-data:
