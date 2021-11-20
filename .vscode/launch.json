@@ -8,8 +8,8 @@
             "port": 9229,
             "address": "localhost",
             "sourceMaps": true,
-            "localRoot": "${workspaceFolder}/build",
-            "remoteRoot": "/app/build",
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/app",
             "protocol": "inspector",
             "restart": true
         }
