@@ -18,9 +18,19 @@ gulp.task("server:build",
     )
 );
 
+gulp.task("server:dev",
+    gulp.series(
+        "server:build",
+        gulp.parallel(
+            watchServer,
+            runServer
+        )
+    )
+);
+
 function buildServer() {
     return gulp.src(["./src/server/**/*.js", "./src/server/**/*.ts"])
-        .pipe($.changed("./build"))
+        .pipe($.changed("./build", {extension: ".js"}))
         .pipe($.sourcemaps.init())
         .pipe($.babel())
         .pipe($.sourcemaps.write(".", {sourceRoot: path.join(__dirname, "src", "server")}))
@@ -29,5 +39,26 @@ function buildServer() {
 
 function copyStaticServerAssets() {
     return gulp.src("./src/server/schema.graphql")
+        .pipe($.changed("./build"))
         .pipe(gulp.dest("./build"));
+}
+
+function watchServer() {
+    return gulp.watch([
+        "./src/server/**/*.js",
+        "./src/server/**/*.ts",
+        "./src/server/**/*.graphql"
+    ], gulp.parallel(
+        copyStaticServerAssets,
+        buildServer
+    ));
+}
+
+function runServer() {
+    return $.nodemon({
+        script: "./run.js",
+        watch: "./build",
+        ignore: ["**/tests"],
+        nodeArgs: ["--inspect=0.0.0.0:9229"]
+    })
 }
