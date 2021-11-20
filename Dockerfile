@@ -28,9 +28,11 @@ ENV NODE_ENV=development
 #Node debugger
 EXPOSE 9229
 
-CMD npm ci && npm cache clean --force && gulp server:dev 
+CMD npm ci && npm cache clean --force && gulp dev 
 
 #prod is derived from base.
 FROM base as prod
+
+RUN gulp build
 
 CMD ["node","/app/run.js"]

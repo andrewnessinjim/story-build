@@ -9,6 +9,7 @@ services:
     ports:
       - '3000:3000'
       - '9229:9229'
+      - '8080:8080'
     volumes:
        - ./:/app
     environment:
