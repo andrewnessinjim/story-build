@@ -5,7 +5,9 @@ const path = require("path"),
 
 const vendor = [
 	"react",
-	"react-dom"
+	"react-dom",
+	"graphql",
+	"@apollo/client"
 ]
 
 module.exports = {
