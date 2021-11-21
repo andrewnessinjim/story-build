@@ -4,12 +4,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 function HelloWorld(){
-    return <p>Hello World!</p>
+    return <h1>Hello World!</h1>
+}
+
+function onClickHandler() {
+    console.log("Thank you!");
 }
 
 ReactDOM.render(
-    <div>
+    <section>
         <HelloWorld/>
-    </div>,
+        <button onClick={onClickHandler}>Click Me!</button>
+    </section>,
     document.getElementById("mount")
 );

@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Docker: Attach to Node",
+            "name": "Node Attach",
             "type": "node",
             "request": "attach",
             "port": 9229,
@@ -12,6 +12,13 @@
             "remoteRoot": "/app",
             "protocol": "inspector",
             "restart": true
+        },
+        {
+            "type": "pwa-chrome",
+            "name": "Chrome Launch",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "userDataDir": "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
         }
     ]
 }
