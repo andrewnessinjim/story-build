@@ -32,8 +32,13 @@ async function findRoom (roomId) {
     return await roomDao.findRoom(roomId);
 }
 
+async function findAllRooms () {
+    return await roomDao.findAllRooms();
+}
+
 export default {
     createRoom,
     playSentence,
-    findRoom
+    findRoom,
+    findAllRooms
 }

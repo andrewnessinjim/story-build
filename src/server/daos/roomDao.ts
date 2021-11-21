@@ -66,11 +66,17 @@ async function isStoryComplete(roomId)  {
     return roomDoc.isStoryComplete;
 }
 
+async function findAllRooms(){
+    const docs = await db.get().collection("rooms").find();
+    return docs.toArray();
+}
+
 export default {
     createRoom,
     isPhrasePlayed,
     playSentence,
     findRoom,
     completeStory,
-    isStoryComplete
+    isStoryComplete,
+    findAllRooms
 }

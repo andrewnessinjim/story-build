@@ -1,6 +1,7 @@
 type Query {
     health: String!
     joinRoom(roomId: ID!): Room!
+    allRooms:[Room]!
 }
 
 type Mutation {
