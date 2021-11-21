@@ -1,15 +1,15 @@
-const roomDao = require("../daos/roomDao");
-const Phrase = require("../dtos/Phrase");
-const Room = require("../dtos/Room");
+import roomDao from "../daos/roomDao"
+import Phrase from "../dtos/Phrase";
+import Room from "../dtos/Room";
 
-module.exports.createRoom = async(phrasesArg) => {
+async function createRoom(phrasesArg) {
     const phrases = phrasesArg.map(phraseString => new Phrase(phraseString, false));
     const room = new Room(phrases);
     await roomDao.createRoom(room);
     return room;
 };
 
-module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
+async function playSentence(roomId, playedPhrase, playedSentence) {
     const isStoryComplete = await roomDao.isStoryComplete(roomId);
     if(isStoryComplete) {
         throw new Error(`Story in room ${roomId} is already complete. Cannot play any phrase`);
@@ -28,6 +28,12 @@ module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
     return roomAfterPlayingSentence;
 };
 
-module.exports.findRoom = async (roomId) => {
+async function findRoom (roomId) {
     return await roomDao.findRoom(roomId);
+}
+
+export default {
+    createRoom,
+    playSentence,
+    findRoom
 }

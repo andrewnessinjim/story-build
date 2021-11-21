@@ -1,13 +1,11 @@
-const MongoClient = require("mongodb").MongoClient;
+import { MongoClient } from "mongodb";
 
+let mongoClient:MongoClient = null;
 
-let mongoClient = null;
-
-module.exports.connect = async() => {
+export async function connect() {
     try {
     mongoClient = await MongoClient.connect(
-        process.env.DB_URI,
-        { useNewUrlParser: true },
+        process.env.DB_URI
     );
     } catch(e) {
         console.error(e);
@@ -17,7 +15,7 @@ module.exports.connect = async() => {
     console.log("Connected to MongoDB successfully");
 }
 
-module.exports.get = () => {
+export function get() {
     if(!mongoClient) {
         throw new Error("Call connect first");
     }

@@ -1,4 +1,4 @@
-const roomService = require("../business/roomService");
+import roomService from "../business/roomService";
 
 async function createRoom(_, args) {
     return await roomService.createRoom(args.phrases);
@@ -9,7 +9,7 @@ async function playSentence(_, args) {
     return await roomService.playSentence(roomId, phrase, sentence);
 }
 
-module.exports = {
+export default {
     createRoom,
     playSentence
 }

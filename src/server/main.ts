@@ -1,16 +1,14 @@
 import express from "express";
-
-const {ApolloServer} = require("apollo-server-express"),
-    {ApolloServerPluginDrainHttpServer} = require("apollo-server-core"),
-    http = require("http"),
-    fs = require("fs"),
-    path =require("path"),
-    db = require("./daos/db");
+import * as db from "./daos/db";
+import Query from "./resolvers/Query";
+import Mutation from "./resolvers/Mutation";
+import http from "http";
+import fs from "fs";
+import path from "path";
+import { ApolloServer } from "apollo-server-express";
+import {ApolloServerPluginDrainHttpServer } from "apollo-server-core"
 
 const HTTP_PORT:number = 3000;
-
-const Query = require("./resolvers/Query");
-const Mutation = require("./resolvers/Mutation")
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 

@@ -1,11 +1,11 @@
-const db = require("./db");
-const ObjectId = require("mongodb").ObjectId;
+import * as db from "./db";
+import { ObjectId } from "mongodb";
 
-module.exports.createRoom = async(room) => {
+async function createRoom(room) {
     await db.get().collection("rooms").insertOne(room);
 };
 
-module.exports.isPhrasePlayed = async (roomId, phrase) => {
+async function isPhrasePlayed(roomId, phrase) {
     const doc = await db.get().collection("rooms").findOne({
         _id: new ObjectId(roomId)
     }, {
@@ -20,7 +20,7 @@ module.exports.isPhrasePlayed = async (roomId, phrase) => {
     return doc.phrases[0].isPlayed;
 }
 
-module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
+async function playSentence(roomId, playedPhrase:string, playedSentence:string) {
     const doc = await db.get().collection("rooms").findOneAndUpdate(
         {_id: new ObjectId(roomId), "phrases.value": playedPhrase},
         {   $set: 
@@ -36,11 +36,11 @@ module.exports.playSentence = async (roomId, playedPhrase, playedSentence) => {
     return doc.value;
 };
 
-module.exports.findRoom = async (roomId) => {
+async function findRoom(roomId)  {
     return await db.get().collection("rooms").findOne({_id: new ObjectId(roomId)});
 }
 
-module.exports.completeStory = async (roomId) => {
+async function completeStory(roomId)  {
     const updatedRoom = await db.get().collection("rooms").findOneAndUpdate(
         {_id: new ObjectId(roomId)},
         {
@@ -56,7 +56,7 @@ module.exports.completeStory = async (roomId) => {
     return updatedRoom.value;
 }
 
-module.exports.isStoryComplete = async(roomId) => {
+async function isStoryComplete(roomId)  {
     const roomDoc = await db.get().collection("rooms").findOne({
         _id: new ObjectId(roomId)
     }, {
@@ -64,4 +64,13 @@ module.exports.isStoryComplete = async(roomId) => {
             isStoryComplete: 1
     }});
     return roomDoc.isStoryComplete;
+}
+
+export default {
+    createRoom,
+    isPhrasePlayed,
+    playSentence,
+    findRoom,
+    completeStory,
+    isStoryComplete
 }
