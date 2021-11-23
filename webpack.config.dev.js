@@ -5,15 +5,6 @@ const {merge} = require("webpack-merge"),
 const webpackDevConfig = merge(common, {
 	mode: "development",
 	devtool: "eval-cheap-module-source-map",
-	entry: {
-		app: { 
-			import:
-			[
-				"./src/client/main.tsx"
-			],
-			dependOn: "vendor" 
-		}
-	},
 	module: {
 		rules: [
 			{ test: /\.css$/, use: ["style-loader", "css-loader"] },

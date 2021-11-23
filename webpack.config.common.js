@@ -1,22 +1,17 @@
 const path = require("path"),
-	ESLintPlugin = require("eslint-webpack-plugin"),
-	{ CleanWebpackPlugin} = require("clean-webpack-plugin");
-
-
-const vendor = [
-	"react",
-	"react-dom",
-	"graphql",
-	"@apollo/client"
-]
+	ESLintPlugin = require("eslint-webpack-plugin");
 
 module.exports = {
 	entry: {
-		app: ["./src/client/main.tsx"],
-		vendor
+		app: {
+			import: "./src/client/main.tsx",
+			dependOn: "vendor"
+		},
+		vendor: ["react", "react-dom", "graphql", "@apollo/client"]
 	},
 	output: {
-		path: path.join(__dirname, "public", "build")
+		path: path.join(__dirname, "public", "build"),
+		clean: true
 	},
 	resolve: {
 		extensions: ["", ".js", ".jsx", ".ts", ".tsx"]
@@ -25,16 +20,13 @@ module.exports = {
 		rules: [
 			{test: /\.(j|t)sx?$/, use: "babel-loader", exclude: /node_modules/},
 			{test: /\.json$/, use: "json-loader"},
-			{test: /\.(png|jpg|jpeg|gif|woff|ttf|eot|svg|woff2)/, use: [{
-				loader: "url-loader",
-				options: {
-					"limit": 5000
-				}
-			}]}
+			{test: /\.(png|jpg|jpeg|gif|woff|ttf|eot|svg|woff2)/, type: 'asset/resource'}
 		]
 	},
 	plugins: [
-		new CleanWebpackPlugin(),
 		new ESLintPlugin()
-	]
+	],
+	optimization: {
+		runtimeChunk: 'single'
+	}
 }
