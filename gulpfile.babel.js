@@ -34,7 +34,11 @@ gulp.task("server:dev",
 );
 
 function buildServer() {
-    return gulp.src(["./src/server/**/*.js", "./src/server/**/*.ts"])
+    return gulp.src([
+        "./src/server/**/*.js",
+        "./src/server/**/*.ts",
+        "!./src/server/**/*test.js",
+        "!./src/server/**/*test.ts"])
         .pipe($.changed("./build", {extension: ".js"}))
         .pipe($.sourcemaps.init())
         .pipe($.babel())

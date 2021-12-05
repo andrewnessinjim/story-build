@@ -4,7 +4,7 @@
   "description": "Server for building stories",
   "main": "./src/server/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Andrew Nessin",
   "license": "ISC",
@@ -28,6 +28,7 @@
     "@babel/preset-react": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "@babel/register": "^7.16.0",
+    "@types/jest": "^27.0.3",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "babel-loader": "^8.2.3",
@@ -42,6 +43,7 @@
     "gulp-load-plugins": "^2.0.7",
     "gulp-nodemon": "^2.5.0",
     "gulp-sourcemaps": "^3.0.0",
+    "jest": "^27.4.3",
     "mini-css-extract-plugin": "^2.4.5",
     "nodemon": "^2.0.13",
     "react-hot-loader": "^4.13.0",
@@ -49,6 +51,7 @@
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",
+    "ts-node": "^10.4.0",
     "webpack": "^5.64.2",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.5.0",
